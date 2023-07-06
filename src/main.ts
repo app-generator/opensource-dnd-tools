@@ -24,5 +24,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </div>
 `
 
-document.querySelector('#draggable-1').addEventListener('dragstart', (event) => { onDragStart( event ) });
-document.querySelector('#draggable-1').addEventListener('dragend'  , (event) => { onDragEnd( event ) });
+document.querySelector('#draggable-1')!.addEventListener('dragstart', (event) => { onDragStart( event ) });
+document.querySelector('#draggable-1')!.addEventListener('dragend'  , (event) => { onDragEnd( event ) });
