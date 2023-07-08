@@ -14,3 +14,5 @@ document.querySelector('#dropzone')!.addEventListener('drop'    , (event) => { o
 document.querySelector('#action_clear')!.addEventListener('click'   , (event) => { onClear   ( event )    });
 document.querySelector('#action_save')!.addEventListener('click'    , (event) => { onSave    ( event )    });
 document.querySelector('#action_restore')!.addEventListener('click' , (event) => { onRestore ( event )    });
+
+onRestore( null );

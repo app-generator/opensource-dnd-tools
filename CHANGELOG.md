@@ -1,5 +1,10 @@
 # Change Log
   
+## [0.0.5] 2023-07-08
+### Changes
+
+- Restore on `Page Refresh (F5)`
+
 ## [0.0.4] 2023-07-08
 ### Changes
 
