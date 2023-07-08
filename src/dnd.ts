@@ -37,7 +37,7 @@ export function onDrop(event: any) {
     console.log(' > element dropped ');
     const id = event.dataTransfer.getData('text');
     
-    let elementCopy = document.getElementById(id)!.cloneNode(true);
+    let elementCopy = <HTMLElement>document.getElementById(id)!.cloneNode(true);
     
     // Customization
     elementCopy.id = uuidv4();
@@ -47,7 +47,7 @@ export function onDrop(event: any) {
     elementCopy.addEventListener('click', (event) => { onClick( event ); });
 
     // Inject component in the builder
-    const dropzone = document.querySelector('#example-dropzone');
+    const dropzone = <HTMLElement>document.querySelector('#example-dropzone');
     dropzone.appendChild(elementCopy);
     
     // Done with this event
@@ -59,14 +59,14 @@ export function onClick(event: any) {
     // In place edit
     //event.target.contentEditable = 'true';
 
-    let propsPanel_title   = document.querySelector('#builder-props-title'  );
-    let propsPanel_content = document.querySelector('#builder-props-content');
+    let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
+    let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
 
     propsPanel_title.innerHTML = 'Props for ' + event.target.id;
 
     propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
 
-    let propsPanel_input = document.querySelector('input#props_text'  );
+    let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
     propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
 
     event.preventDefault();
