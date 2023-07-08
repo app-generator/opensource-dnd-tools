@@ -1,5 +1,10 @@
 # Change Log
   
+## [0.0.4] 2023-07-08
+### Changes
+
+- Added `Clear`,`Save`,`Restore`
+
 ## [0.0.3] 2023-07-08
 ### Changes
 
