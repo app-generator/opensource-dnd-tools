@@ -34,6 +34,8 @@ export function onDragOver(event: any) {
 
 export function onDrop(event: any) {
 
+    event;
+
     console.log(' > element dropped ');
     const id = event.dataTransfer.getData('text');
     
@@ -47,7 +49,7 @@ export function onDrop(event: any) {
     elementCopy.addEventListener('click', (event) => { onClick( event ); });
 
     // Inject component in the builder
-    const dropzone = <HTMLElement>document.querySelector('#example-dropzone');
+    const dropzone = <HTMLElement>document.querySelector('#dropzone');
     dropzone.appendChild(elementCopy);
     
     // Done with this event
@@ -55,6 +57,8 @@ export function onDrop(event: any) {
 }
 
 export function onClick(event: any) {
+
+    event;
 
     // In place edit
     //event.target.contentEditable = 'true';
@@ -73,7 +77,7 @@ export function onClick(event: any) {
 }
 
 export function onKeyUp(event: any) {
-
+    event;
     //if (event.key === 'Enter' || event.keyCode === 13) {
         const target_id = event.target.dataset.target;
         //console.log(' > Save TEXT for ' + target_id);
@@ -85,5 +89,43 @@ export function onKeyUp(event: any) {
             console.log( ' > NULL target:' + target_id );
         }
     //}    
-
 }
+
+export function onClear(event: any) {
+    event;
+    console.log( ' > ACTION: clear');
+    let content = <HTMLElement>document.querySelector('#dropzone');
+    // clear
+    content.innerHTML = 'dropzone';
+    window.localStorage.clear();
+    //let builderContainer = document.querySelector('#layout')!.innerHTML;
+    //document.querySelector<HTMLDivElement>('#app')!.innerHTML = builderContainer;    
+}
+
+export function onSave(event: any) {
+    event;
+    console.log( ' > ACTION: save');
+    let content = <HTMLElement>document.querySelector('#dropzone');
+    window.localStorage.setItem("editME", content.innerHTML);
+}
+
+export function onRestore(event: any) {
+    event;
+    console.log( ' > ACTION: restore');
+    let content = <HTMLElement>document.querySelector('#dropzone');
+    // update
+    content.innerHTML = <string>window.localStorage.getItem("editME");
+
+    let elems = content.getElementsByClassName("draggable");
+    
+    if ( elems ) {
+        console.log(' > LEN: ' + elems.length );
+
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].addEventListener('click', (event) => { onClick( event ) });
+        }    
+    } else {
+        console.log(' > NULL ELEMs ');
+    }
+}
+

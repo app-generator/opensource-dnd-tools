@@ -110,7 +110,7 @@ button:focus-visible {
   padding: 10px;
 }
 
-.example-draggable {
+.draggable {
   background-color: #4AAE9B;
   font-weight: normal;
   margin-bottom: 10px;
@@ -118,7 +118,7 @@ button:focus-visible {
   padding: 10px;
 }
 
-.example-dropzone {
+.dropzone {
   background-color: #6DB65B;
   flex-basis: 100%;
   flex-grow: 1;

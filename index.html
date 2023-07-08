@@ -16,23 +16,34 @@
 
         <!-- Navigation -->
         <div class="row" id="builder-navigation">
-          <span>
-            navigation
-          </span>
+
+          <div class="row justify-content-md-center">
+            <div class="col col-lg-2">
+              <button id="action_clear" type="button" class="btn btn-secondary">clear</button>
+            </div>
+            <div class="col-md-auto">
+              <button id="action_save" type="button" class="btn btn-secondary">save</button>
+            </div>
+            <div class="col col-lg-2">
+              <button id="action_restore" type="button" class="btn btn-secondary">restore</button>
+            </div>
+          </div>
+          </div>
+
         </div>
 
         <!-- BUILDER -->
         <div class="row" id="builder-container">
           <div class="col" id="builder-components"> 
 
-            <div id="draggable-1" class="example-draggable" draggable="true">
+            <div id="draggable" class="draggable" draggable="true">
               DIV Component
             </div>
 
           </div>
           <div class="col-8" id="builder-content"> 
             
-            <div id="example-dropzone" class="example-dropzone">dropzone</div>
+            <div id="dropzone" class="dropzone">dropzone</div>
 
           </div>
           <div class="col" id="builder-props">
