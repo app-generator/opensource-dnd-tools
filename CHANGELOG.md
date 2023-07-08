@@ -1,5 +1,10 @@
 # Change Log
   
+## [0.0.3] 2023-07-08
+### Changes
+
+- Fix the Build
+
 ## [0.0.2] 2023-07-08
 ### Changes
 
