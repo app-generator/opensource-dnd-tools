@@ -1,5 +1,5 @@
 import './style.css'
-import { onDragStart, onDragEnd, onDragOver, onDrop, onClick, onEnter } from './dnd.ts'
+import { onDragStart, onDragEnd, onDragOver, onDrop, onClick } from './dnd.ts'
 
 let builderContainer = document.querySelector('#layout')!.innerHTML;
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = builderContainer;
@@ -10,5 +10,3 @@ document.querySelector('#draggable-1')!.addEventListener('click'    , (event) =>
 
 document.querySelector('#example-dropzone')!.addEventListener('dragover', (event) => { onDragOver( event ) });
 document.querySelector('#example-dropzone')!.addEventListener('drop'    , (event) => { onDrop    ( event ) });
-
-//document.querySelector('input#props')!.addEventListener('keyup'         , (event) => { onEnter   ( event )    });
