@@ -1,28 +1,14 @@
 import './style.css'
-//import typescriptLogo from './typescript.svg'
-//import viteLogo from '/vite.svg'
-//import { setupCounter } from './counter.ts'
-import { onDragStart, onDragEnd } from './dnd.ts'
+import { onDragStart, onDragEnd, onDragOver, onDrop, onClick, onEnter } from './dnd.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<div class="example-parent">
-  <div class="example-origin">
-    <div
-      id="draggable-1"
-      class="example-draggable"
-      draggable="true"
-    >
-      draggable
-    </div>
-  </div>
+let builderContainer = document.querySelector('#layout')!.innerHTML;
+document.querySelector<HTMLDivElement>('#app')!.innerHTML = builderContainer;
 
-  <div
-    class="example-dropzone"
-  >
-    dropzone
-  </div>
-</div>
-`
+document.querySelector('#draggable-1')!.addEventListener('dragstart', (event) => { onDragStart( event )    });
+document.querySelector('#draggable-1')!.addEventListener('dragend'  , (event) => { onDragEnd  ( event )    });
+document.querySelector('#draggable-1')!.addEventListener('click'    , (event) => { onClick    ( event )    });
 
-document.querySelector('#draggable-1')!.addEventListener('dragstart', (event) => { onDragStart( event ) });
-document.querySelector('#draggable-1')!.addEventListener('dragend'  , (event) => { onDragEnd( event ) });
+document.querySelector('#example-dropzone')!.addEventListener('dragover', (event) => { onDragOver( event ) });
+document.querySelector('#example-dropzone')!.addEventListener('drop'    , (event) => { onDrop    ( event ) });
+
+//document.querySelector('input#props')!.addEventListener('keyup'         , (event) => { onEnter   ( event )    });
