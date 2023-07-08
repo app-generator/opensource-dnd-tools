@@ -113,13 +113,21 @@ export function onRestore(event: any) {
     event;
     console.log( ' > ACTION: restore');
     let content = <HTMLElement>document.querySelector('#dropzone');
+
+    let saved_content = <string>window.localStorage.getItem("editME");
+
+    // Check that we have data to restore
+    if ( !saved_content ) {
+        return; 
+    }
+ 
     // update
-    content.innerHTML = <string>window.localStorage.getItem("editME");
+    content.innerHTML = saved_content; 
 
     let elems = content.getElementsByClassName("draggable");
     
     if ( elems ) {
-        console.log(' > LEN: ' + elems.length );
+        //console.log(' > LEN: ' + elems.length );
 
         for (let i = 0; i < elems.length; i++) {
             elems[i].addEventListener('click', (event) => { onClick( event ) });
