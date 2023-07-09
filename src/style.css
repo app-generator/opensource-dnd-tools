@@ -116,6 +116,10 @@ button:focus-visible {
   margin-bottom: 10px;
   margin-top: 10px;
   padding: 10px;
+  border: 1px dashed transparent;
+}
+.draggable:hover {
+  border-color: red;
 }
 
 .dropzone {
