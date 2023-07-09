@@ -14,7 +14,8 @@ Open-Source Playground for `Drag & Drop` tools and visual components editing - p
 ```bash
 $ git clone https://github.com/app-generator/opensource-dnd-tools.git
 $ yarn
-$ yarn start
+$ yarn dev    # development (LIVE Reload)
+$ yarn build  # production  (dist FOLDER)
 ```
 
 <br />

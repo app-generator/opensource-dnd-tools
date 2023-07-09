@@ -1,5 +1,11 @@
 # Change Log
-  
+
+## [0.0.6] 2023-07-09
+### Changes
+
+- Update DOCS (readme)
+- Rename Repo to [Free DnD Tools](https://github.com/app-generator/opensource-dnd-tools)
+
 ## [0.0.5] 2023-07-08
 ### Changes
 
