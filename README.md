@@ -4,6 +4,7 @@ Open-Source Playground for `Drag & Drop` tools and visual components editing - p
 
 -  👉 [Visual Builder](https://dnd-playground.onrender.com/) - `LIVE Demo`
 -  🚀 Free [Support](https://appseed.us/support/) via email & `Discord`
+-  🫶 **Contribute** - see the [open issues](https://github.com/app-generator/opensource-dnd-tools/issues)  
    
 <br />
 
