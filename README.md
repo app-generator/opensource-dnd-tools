@@ -1,4 +1,4 @@
-# DnD Tools
+# [Free DnD Tools](https://github.com/app-generator/opensource-dnd-tools)
 
 Open-Source Playground for `Drag & Drop` tools and visual components editing - provided by [AppSeed](https://appseed.us/).
 
@@ -9,7 +9,10 @@ Open-Source Playground for `Drag & Drop` tools and visual components editing - p
 
 ## `Quick Start`
 
+> Tested with `Node 16.x, 18.x`.
+ 
 ```bash
+$ git clone https://github.com/app-generator/opensource-dnd-tools.git
 $ yarn
 $ yarn start
 ```
@@ -48,4 +51,4 @@ Anyone can contribute to this free tool. For more input, please use:
 <br />
 
 ---
-DnD Tools - Open-Source project actively supported by AppSeed 
+[Free DnD Tools](https://github.com/app-generator/opensource-dnd-tools) - `Open-Source` Project actively supported by [AppSeed](https://appseed.us/) 
