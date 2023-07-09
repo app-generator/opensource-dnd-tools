@@ -37,8 +37,7 @@ $ yarn build  # production  (dist FOLDER)
 | ❌ | **Manage SEO** | Title, Description, Keywords |
 | ❌ | **Handle Multiple Pages** | - |
 | ❌ | **Dashboard Layout** | `Single Component` Drag & Drop |
-| ❌ | **CI/CD** | Render Deployment Platform |
-
+| ❌ | **Remote Component Server** | Load Components from distant Server |
 
 <br />
 
