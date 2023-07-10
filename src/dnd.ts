@@ -16,16 +16,15 @@ export function onDragStart(event: any) {
         .currentTarget
         .style
         .backgroundColor = 'yellow';
+
+    onSave(event);    
 }
 
 export function onDragEnd(event: any) {
     console.log(' > onDrag_END() ');
 
-    let elems = document.getElementsByClassName('dotted-border');
-
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].classList.remove('dotted-border');
-    } 
+    // Remove all previous    
+    remClassProcessor('border-dotted'); 
 
     event
         .dataTransfer
@@ -41,9 +40,9 @@ export function onDragOver(event: any) {
     console.log(' > onDrag_OVER() ');
 
     // Remove all previous    
-    remClassProcessor('dotted-border');
+    remClassProcessor('border-dotted');
 
-    event.target.classList.add('dotted-border');
+    event.target.classList.add('border-dotted');
     event.preventDefault();
 }
 
@@ -70,6 +69,10 @@ export function onDrop(event: any) {
     editableComponent.classList.add( 'component' );
     editableComponent.removeAttribute('draggable');  
 
+    // Make it CLICK-able
+    editableComponent.addEventListener('click', (event) => { onClick( event ); });
+
+    /*
     // Some Stuff 
     const upElement = document.createElement("span");
     upElement.innerHTML = "<i class='fa-solid fa-caret-up'></i>";
@@ -111,6 +114,7 @@ export function onDrop(event: any) {
     editableComponent.appendChild(downElement);
     editableComponent.appendChild(spanElement);
     editableComponent.appendChild(contentElement);
+    */
 
     // Inject component in the builder
     //const dropzone = <HTMLElement>document.querySelector('#dropzone');
@@ -139,11 +143,12 @@ export function onDelete(element: any) {
 
     window.localStorage.setItem('editME', div.innerHTML)
   }
-  
 
 export function onClick(event: any) {
 
-    if ( !event.target.classList.contains("component") ) {
+    if ( !( event.target.id.includes('uuid') )  ) {
+        //console.log(' > ['+event.target.id+'] NOT a Component, skip the edit');
+        console.log(' > GRID Component, skip the edit');
         return;
     }
 
@@ -216,7 +221,9 @@ export function onSave(event: any) {
 }
 
 export function onRestore(event: any) {
-    event;
+    
+    event; // fake the usage
+
     console.log( ' > ACTION: restore');
     let content = <HTMLElement>document.querySelector('#dropzone');
 
@@ -230,7 +237,7 @@ export function onRestore(event: any) {
     // update
     content.innerHTML = saved_content; 
 
-    let elems = content.getElementsByClassName("draggable");
+    let elems = content.getElementsByClassName("component");
     
     if ( elems ) {
         for (let i = 0; i < elems.length; i++) {

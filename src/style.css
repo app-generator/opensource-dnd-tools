@@ -181,6 +181,11 @@ button:focus-visible {
   margin: 1px;
 }
 
+#builder-log {
+  border: 1px solid green;
+  margin: 1px;
+}
+
 #builder-container {
   border: 1px solid green;
   margin: 1px;
@@ -203,6 +208,6 @@ button:focus-visible {
   margin: 1px;
 }
 
-.dotted-border {
+.border-dotted {
   border-style: dotted;
 }
