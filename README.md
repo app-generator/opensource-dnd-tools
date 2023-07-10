@@ -21,8 +21,6 @@ $ yarn build  # production  (dist FOLDER)
 
 ![Open-source DnD Tools and Visual Builders provided by AppSeed.](https://github.com/app-generator/opensource-dnd-tools/assets/51070104/b8f9ed0b-dbe4-429c-b96c-c32df831a1a2)
 
-<br />
-
 ## Roadmap & `Features` 
 
 | Status | Item | info | 
