@@ -118,6 +118,12 @@ button:focus-visible {
   padding: 10px;
 }
 
+.component {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
 .dropzone {
   background-color: #6DB65B;
   flex-basis: 100%;
@@ -126,6 +132,18 @@ button:focus-visible {
   margin-top: 10px;
   padding: 10px;
 }
+
+.dropzone-elem {
+  background-color: #6DB65B;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+/*
+.row .dropzone-elem:hover {
+  border-style: dotted;
+}*/
 
 #builder-navigation {
   border: 1px solid red;
@@ -154,3 +172,6 @@ button:focus-visible {
   margin: 1px;
 }
 
+.dotted-border {
+  border-style: dotted;
+}
