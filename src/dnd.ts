@@ -45,8 +45,44 @@ export function onDrop(event: any) {
     elementCopy.id = uuidv4();
     elementCopy.innerHTML += elementCopy.id;
 
-    // Make the component editable 
-    elementCopy.addEventListener('click', (event) => { onClick( event ); });
+    //
+    const upElement = document.createElement("span");
+    upElement.innerHTML = "<i class='fa-solid fa-caret-up'></i>";
+    upElement.className = "upButton";
+    upElement.onclick = function() {
+        var prevElement = elementCopy.previousElementSibling;
+        if (prevElement) {
+            elementCopy.parentNode?.insertBefore(elementCopy, prevElement);
+        }
+    }
+    const downElement = document.createElement("span");
+    downElement.innerHTML = "<i class='fa-solid fa-caret-down'></i>";
+    downElement.className = "downButton";
+    downElement.onclick = function() {
+        var nextElement = elementCopy.nextElementSibling;
+        if (nextElement) {
+            elementCopy.parentNode?.insertBefore(nextElement, elementCopy);
+        }
+    }
+    const spanElement = document.createElement("span");
+    spanElement.innerHTML = "<i class='fa-solid fa-xmark'></i>";
+    spanElement.className = "cross-icon";
+    spanElement.onclick = function() {
+        onDelete(elementCopy);
+    };
+    const contentElement = document.createElement("span");
+    contentElement.innerHTML = elementCopy.innerHTML.trim();
+    contentElement.style.display = "block";
+    contentElement.id = elementCopy.id;
+    contentElement.onclick = function(event) {
+        onClick( event )
+    };
+
+    elementCopy.innerHTML = "";
+    elementCopy.appendChild(upElement);
+    elementCopy.appendChild(downElement);
+    elementCopy.appendChild(spanElement);
+    elementCopy.appendChild(contentElement);
 
     // Inject component in the builder
     const dropzone = <HTMLElement>document.querySelector('#dropzone');
@@ -55,6 +91,29 @@ export function onDrop(event: any) {
     // Done with this event
     event.dataTransfer.clearData();
 }
+
+  
+
+
+export function onDelete(element: any) {
+    element.style.display = "none";
+    const localStorageData = window.localStorage.getItem('editME')?.split("dropzone")[1] || "";
+
+    var div = document.createElement('div');
+    div.id = 'dropzone';
+    div.innerHTML = localStorageData.trim();
+
+    const children = Array.from(div.children);
+    const updatedData = children.filter(item => item.id !== element.id);
+
+    div.innerHTML = 'dropzone';
+    updatedData.forEach(item => {
+      div.appendChild(item);
+    });
+
+    window.localStorage.setItem('editME', div.innerHTML)
+  }
+  
 
 export function onClick(event: any) {
 
@@ -127,10 +186,49 @@ export function onRestore(event: any) {
     let elems = content.getElementsByClassName("draggable");
     
     if ( elems ) {
-        //console.log(' > LEN: ' + elems.length );
-
         for (let i = 0; i < elems.length; i++) {
-            elems[i].addEventListener('click', (event) => { onClick( event ) });
+            const draggableElement = elems[i];
+
+            const upElement = document.createElement("span");
+            upElement.innerHTML = "<i class='fa-solid fa-caret-up'></i>";
+            upElement.className = "upButton";
+            upElement.onclick = function() {
+                var prevElement = draggableElement.previousElementSibling;
+                if (prevElement) {
+                    draggableElement.parentNode?.insertBefore(draggableElement, prevElement);
+                    i--;
+                }
+            }
+            const downElement = document.createElement("span");
+            downElement.innerHTML = "<i class='fa-solid fa-caret-down'></i>";
+            downElement.className = "downButton";
+            downElement.onclick = function() {
+                var nextElement = draggableElement.nextElementSibling;
+                if (nextElement) {
+                    draggableElement.parentNode?.insertBefore(nextElement, draggableElement);
+                    i++;
+                }
+            }
+            const crossElement = document.createElement("span");
+            crossElement.innerHTML = "<i class='fa-solid fa-xmark'></i>";
+            crossElement.className = "cross-icon";
+            crossElement.onclick = function() {
+                onDelete(draggableElement);
+            };
+
+            const contentElement = document.createElement("span");
+            contentElement.innerHTML = draggableElement.innerHTML.trim();
+            contentElement.style.display = "block";
+            contentElement.id = draggableElement.id;
+            contentElement.onclick = function(event) {
+                onClick( event )
+            };
+
+            draggableElement.innerHTML = "";
+            draggableElement.appendChild(upElement);
+            draggableElement.appendChild(downElement);
+            draggableElement.appendChild(crossElement);
+            draggableElement.appendChild(contentElement);
         }    
     } else {
         console.log(' > NULL ELEMs ');
