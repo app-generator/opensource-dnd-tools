@@ -39,18 +39,21 @@ export function onDrop(event: any) {
     console.log(' > element dropped ');
     const id = event.dataTransfer.getData('text');
     
-    let elementCopy = <HTMLElement>document.getElementById(id)!.cloneNode(true);
+    let editableComponent = <HTMLElement>document.getElementById(id)!.cloneNode(true);
     
     // Customization
-    elementCopy.id = uuidv4();
-    elementCopy.innerHTML += elementCopy.id;
+    editableComponent.id = uuidv4();
+    editableComponent.innerHTML += editableComponent.id;
+    editableComponent.classList.remove( 'draggable' );
+    editableComponent.classList.add( 'component' );
+    editableComponent.removeAttribute('draggable');    
 
     // Make the component editable 
-    elementCopy.addEventListener('click', (event) => { onClick( event ); });
+    editableComponent.addEventListener('click', (event) => { onClick( event ); });
 
     // Inject component in the builder
     const dropzone = <HTMLElement>document.querySelector('#dropzone');
-    dropzone.appendChild(elementCopy);
+    dropzone.appendChild(editableComponent);
     
     // Done with this event
     event.dataTransfer.clearData();
@@ -58,10 +61,23 @@ export function onDrop(event: any) {
 
 export function onClick(event: any) {
 
-    event;
+    if ( !event.target.classList.contains("component") ) {
+        return;
+    }
+    
+    console.log(' > ACTIVE Component: ' + event.target.id);
+
+    // Remove previous 
+    remClassProcessor('border-dotted');
+
+    // Update CSS
+    event.target.classList.add('border-dotted');
 
     // In place edit
     //event.target.contentEditable = 'true';
+
+    // Bind Quil'
+    //var quill = new Quill( event.target, {});
 
     let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
     let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
@@ -137,3 +153,13 @@ export function onRestore(event: any) {
     }
 }
 
+export function remClassProcessor(aClass: string) {
+    
+    let elems = document.getElementsByClassName( aClass );
+
+    if ( elems ) {
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].classList.remove( aClass );
+        }    
+    }        
+}
