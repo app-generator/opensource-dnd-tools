@@ -103,7 +103,6 @@ button:focus-visible {
   font-family: sans-serif;
   font-weight: bold;
 }
-
 .example-origin {
   flex-basis: 100%;
   flex-grow: 1;
@@ -117,9 +116,42 @@ button:focus-visible {
   margin-top: 10px;
   padding: 10px;
   border: 1px dashed transparent;
+  position: relative;
 }
+
+.cross-icon {
+  color: red;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+.upButton {
+  position: absolute;
+  left: 5px;
+  top: 0;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.downButton {
+  position: absolute;
+  left: 5px;
+  bottom: 0;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+
 .draggable:hover {
   border-color: red;
+}
+.draggable:hover .cross-icon,
+.draggable:hover .upButton,
+.draggable:hover .downButton {
+  display: block;
 }
 
 .dropzone {
