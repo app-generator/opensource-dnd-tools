@@ -19,7 +19,7 @@ $ yarn dev    # development (LIVE Reload)
 $ yarn build  # production  (dist FOLDER)
 ```
 
-![Open-source DnD Tools and Visual Builders provided by AppSeed.](https://github.com/app-generator/opensource-dnd-tools/assets/51070104/2530b4d7-a35f-4590-bde9-3aab47b2e0ef)
+![Open-source DnD Tools and Visual Builders provided by AppSeed.](https://github.com/app-generator/opensource-dnd-tools/assets/51070104/b8f9ed0b-dbe4-429c-b96c-c32df831a1a2)
 
 <br />
 
@@ -32,7 +32,7 @@ $ yarn build  # production  (dist FOLDER)
 | ✅ | **One-Page Layout** | `Single Component` Drag & Drop |
 | ✅ | **Persistence** (local storage) | Save, Restore, Clear |
 | ✅ | **Component Customization** | Text-Only |
-| ❌ | **Added Grid Component** | This allows to inject predefined rows (2,3,4 columns) |
+| ✅ | **Added Grid Component** | This allows to inject predefined rows (2,3,4 columns) |
 | ❌ | **Component Customization** | Images, Links |
 | ❌ | **Component Customization** | CSS |
 | ❌ | **PAGE Customization** | CSS |
