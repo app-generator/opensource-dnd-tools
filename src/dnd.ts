@@ -6,94 +6,120 @@ export function uuidv4() {
 }
 
 export function onDragStart(event: any) {
-event
-    .dataTransfer
-    .setData('text/plain', event.target.id);
+    console.log(' > onDrag_START() ');
 
-event
-    .currentTarget
-    .style
-    .backgroundColor = 'yellow';
+    event
+        .dataTransfer
+        .setData('text/plain', event.target.id);
+
+    event
+        .currentTarget
+        .style
+        .backgroundColor = 'yellow';
 }
 
 export function onDragEnd(event: any) {
-event
-    .dataTransfer
-    .setData('text/plain', event.target.id);
+    console.log(' > onDrag_END() ');
 
-event
-    .currentTarget
-    .style
-    .backgroundColor = '#4AAE9B';
+    let elems = document.getElementsByClassName('dotted-border');
+
+    for (let i = 0; i < elems.length; i++) {
+        elems[i].classList.remove('dotted-border');
+    } 
+
+    event
+        .dataTransfer
+        .setData('text/plain', event.target.id);
+
+    event
+        .currentTarget
+        .style
+        .backgroundColor = '#4AAE9B';
 }
 
 export function onDragOver(event: any) {
-    console.log(' > element dragged over ');
+    console.log(' > onDrag_OVER() ');
+
+    // Remove all previous    
+    remClassProcessor('dotted-border');
+
+    event.target.classList.add('dotted-border');
     event.preventDefault();
 }
 
 export function onDrop(event: any) {
 
-    event;
+    console.log(' > on_DROP() ');
 
-    console.log(' > element dropped ');
     const id = event.dataTransfer.getData('text');
     
-    let elementCopy = <HTMLElement>document.getElementById(id)!.cloneNode(true);
+    let editableComponent = <HTMLElement>document.getElementById(id)!.cloneNode(true);
+
+    console.log(' > CONTAINER: ' + event.target.id );
+    console.log(' > Component: ' + editableComponent.dataset.type );
     
     // Customization
-    elementCopy.id = uuidv4();
-    elementCopy.innerHTML += elementCopy.id;
+    editableComponent.id = uuidv4();
+    
+    if( event.target.id?.includes('grid-') ) {
+        event.target.innerHTML = '';
+    } 
 
-    //
+    //editableComponent.innerHTML += editableComponent.id;
+    editableComponent.classList.remove( 'draggable' );
+    editableComponent.classList.add( 'component' );
+    editableComponent.removeAttribute('draggable');  
+
+    // Some Stuff 
     const upElement = document.createElement("span");
     upElement.innerHTML = "<i class='fa-solid fa-caret-up'></i>";
     upElement.className = "upButton";
     upElement.onclick = function() {
-        var prevElement = elementCopy.previousElementSibling;
+        var prevElement = editableComponent.previousElementSibling;
         if (prevElement) {
-            elementCopy.parentNode?.insertBefore(elementCopy, prevElement);
+            editableComponent.parentNode?.insertBefore(editableComponent, prevElement);
         }
     }
+
     const downElement = document.createElement("span");
     downElement.innerHTML = "<i class='fa-solid fa-caret-down'></i>";
     downElement.className = "downButton";
     downElement.onclick = function() {
-        var nextElement = elementCopy.nextElementSibling;
+        var nextElement = editableComponent.nextElementSibling;
         if (nextElement) {
-            elementCopy.parentNode?.insertBefore(nextElement, elementCopy);
+            editableComponent.parentNode?.insertBefore(nextElement, editableComponent);
         }
     }
+
     const spanElement = document.createElement("span");
     spanElement.innerHTML = "<i class='fa-solid fa-xmark'></i>";
     spanElement.className = "cross-icon";
     spanElement.onclick = function() {
-        onDelete(elementCopy);
+        onDelete(editableComponent);
     };
+
     const contentElement = document.createElement("span");
-    contentElement.innerHTML = elementCopy.innerHTML.trim();
+    contentElement.innerHTML = editableComponent.innerHTML.trim();
     contentElement.style.display = "block";
-    contentElement.id = elementCopy.id;
+    contentElement.id = editableComponent.id;
     contentElement.onclick = function(event) {
         onClick( event )
     };
 
-    elementCopy.innerHTML = "";
-    elementCopy.appendChild(upElement);
-    elementCopy.appendChild(downElement);
-    elementCopy.appendChild(spanElement);
-    elementCopy.appendChild(contentElement);
+    editableComponent.innerHTML = "";
+    editableComponent.appendChild(upElement);
+    editableComponent.appendChild(downElement);
+    editableComponent.appendChild(spanElement);
+    editableComponent.appendChild(contentElement);
 
     // Inject component in the builder
-    const dropzone = <HTMLElement>document.querySelector('#dropzone');
-    dropzone.appendChild(elementCopy);
+    //const dropzone = <HTMLElement>document.querySelector('#dropzone');
+    //dropzone.appendChild(editableComponent);
+    event.target.appendChild(editableComponent);
     
     // Done with this event
     event.dataTransfer.clearData();
-}
-
-  
-
+} 
 
 export function onDelete(element: any) {
     element.style.display = "none";
@@ -117,10 +143,20 @@ export function onDelete(element: any) {
 
 export function onClick(event: any) {
 
-    event;
+    if ( !event.target.classList.contains("component") ) {
+        return;
+    }
 
     // In place edit
     //event.target.contentEditable = 'true';
+
+    console.log(' > ACTIVE Component: ' + event.target.id);
+
+    // Remove previous 
+    remClassProcessor('border-dotted');
+
+    // Update CSS
+    event.target.classList.add('border-dotted');    
 
     let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
     let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
@@ -133,6 +169,17 @@ export function onClick(event: any) {
     propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
 
     event.preventDefault();
+}
+
+export function remClassProcessor(aClass: string) {
+
+    let elems = document.getElementsByClassName( aClass );
+
+    if ( elems ) {
+        for (let i = 0; i < elems.length; i++) {
+            elems[i].classList.remove( aClass );
+        }    
+    }        
 }
 
 export function onKeyUp(event: any) {

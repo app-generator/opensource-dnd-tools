@@ -163,6 +163,19 @@ button:focus-visible {
   padding: 10px;
 }
 
+.dropzone-elem {
+  background-color: #6DB65B;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.component {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
 #builder-navigation {
   border: 1px solid red;
   margin: 1px;
@@ -190,3 +203,6 @@ button:focus-visible {
   margin: 1px;
 }
 
+.dotted-border {
+  border-style: dotted;
+}
