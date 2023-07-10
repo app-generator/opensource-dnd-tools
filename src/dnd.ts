@@ -153,7 +153,7 @@ export function onClick(event: any) {
     }
 
     // In place edit
-    //event.target.contentEditable = 'true';
+    event.target.contentEditable = 'true';
 
     console.log(' > ACTIVE Component: ' + event.target.id);
 
