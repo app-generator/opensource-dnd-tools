@@ -22,16 +22,12 @@ export function onDragEnd(event: any) {
     
     console.log(' > onDrag_END() ');
 
-    let draggableElems = document.getElementsByClassName('draggable');
+    let elems = document.getElementsByClassName('dotted-border');
 
-    for (let i = 0; i < draggableElems.length; i++) {
-        draggableElems[i].addEventListener('dragstart', (event) => { onDragStart( event ) });
-        draggableElems[i].addEventListener('dragend'  , (event) => { onDragEnd  ( event ) });
-        draggableElems[i].addEventListener('click'    , (event) => { onClick    ( event ) });
+    for (let i = 0; i < elems.length; i++) {
+        elems[i].classList.remove('dotted-border');
     } 
         
-    event.target.classList.remove('dotted-border');
-
     event
         .dataTransfer
         .setData('text/plain', event.target.id);
