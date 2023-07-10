@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.7] 2023-07-10
+### Changes
+
+- Added GRID Control
+- Added UNDO Action
+  - cancel last action
+
 ## [0.0.6] 2023-07-09
 ### Changes
 
