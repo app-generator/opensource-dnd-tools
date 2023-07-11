@@ -164,14 +164,22 @@ export function onClick(event: any) {
     event.target.classList.add('border-dotted');    
 
     let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
-    let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
+    // let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
 
     propsPanel_title.innerHTML = 'Props for ' + event.target.id;
 
-    propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
+    // propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
 
-    let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
-    propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
+    let editor = document.querySelector('.ql-editor')
+    if (editor) {
+        editor.id = event.target.id;
+        editor.innerHTML = event.target.innerHTML;
+        editor.addEventListener('keyup', (event) => { onKeyUp( event ); });
+    }
+    
+
+    // let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
+    // propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
 
     event.preventDefault();
 }
@@ -190,12 +198,12 @@ export function remClassProcessor(aClass: string) {
 export function onKeyUp(event: any) {
     event;
     //if (event.key === 'Enter' || event.keyCode === 13) {
-        const target_id = event.target.dataset.target;
+        const target_id = event.target.id;
         //console.log(' > Save TEXT for ' + target_id);
 
         let activeComponent = document.querySelector( '#' + target_id );
         if (activeComponent) {
-            activeComponent.innerHTML = event.target.value;
+            activeComponent.innerHTML = event.target.innerHTML;
         } else {
             console.log( ' > NULL target:' + target_id );
         }
