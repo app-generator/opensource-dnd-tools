@@ -1,10 +1,21 @@
 
 import Quill from 'quill';
 
-var quilEditor: Quill;
+var quillEditor: Quill;
+var editedElement: Element;
+
+export function setupGlobalEvents() {
+    document.body.addEventListener('click', () => {
+        destroyQuill();
+    })
+
+    document.querySelector('#dropzone')?.addEventListener('click', event => {
+        event.stopPropagation();
+    })
+}
 
 export function uuidv4() {
-    return 'uuid' + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'uuid' + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
@@ -22,14 +33,14 @@ export function onDragStart(event: any) {
         .style
         .backgroundColor = 'yellow';
 
-    onSave(event);    
+    onSave(event);
 }
 
 export function onDragEnd(event: any) {
     console.log(' > onDrag_END() ');
 
     // Remove all previous    
-    remClassProcessor('border-dotted'); 
+    remClassProcessor('border-dotted');
 
     event
         .dataTransfer
@@ -56,26 +67,26 @@ export function onDrop(event: any) {
     console.log(' > on_DROP() ');
 
     const id = event.dataTransfer.getData('text');
-    
+
     let editableComponent = <HTMLElement>document.getElementById(id)!.cloneNode(true);
 
-    console.log(' > CONTAINER: ' + event.target.id );
-    console.log(' > Component: ' + editableComponent.dataset.type );
-    
+    console.log(' > CONTAINER: ' + event.target.id);
+    console.log(' > Component: ' + editableComponent.dataset.type);
+
     // Customization
     editableComponent.id = uuidv4();
-    
-    if( event.target.id?.includes('grid-') ) {
+
+    if (event.target.id?.includes('grid-')) {
         event.target.innerHTML = '';
-    } 
+    }
 
     //editableComponent.innerHTML += editableComponent.id;
-    editableComponent.classList.remove( 'draggable' );
-    editableComponent.classList.add( 'component' );
-    editableComponent.removeAttribute('draggable');  
+    editableComponent.classList.remove('draggable');
+    editableComponent.classList.add('component');
+    editableComponent.removeAttribute('draggable');
 
     // Make it CLICK-able
-    editableComponent.addEventListener('click', (event) => { onClick( event ); });
+    editableComponent.addEventListener('click', (event) => { onClick(event); });
 
     /*
     // Some Stuff 
@@ -125,10 +136,10 @@ export function onDrop(event: any) {
     //const dropzone = <HTMLElement>document.querySelector('#dropzone');
     //dropzone.appendChild(editableComponent);
     event.target.appendChild(editableComponent);
-    
+
     // Done with this event
     event.dataTransfer.clearData();
-} 
+}
 
 export function onDelete(element: any) {
     element.style.display = "none";
@@ -143,43 +154,60 @@ export function onDelete(element: any) {
 
     div.innerHTML = 'dropzone';
     updatedData.forEach(item => {
-      div.appendChild(item);
+        div.appendChild(item);
     });
 
     window.localStorage.setItem('editME', div.innerHTML)
-  }
+}
 
 export function onClick(event: any) {
 
-    if ( !( event.target.id.includes('uuid') )  ) {
+    var targetComponent;
+
+    if(event.target.classList.contains('component')){
+        targetComponent = event.target;
+    } else {
+        targetComponent = event.target.closest('.component');
+    }
+
+    if (!(targetComponent.id.includes('uuid'))) {
         //console.log(' > ['+event.target.id+'] NOT a Component, skip the edit');
         console.log(' > GRID Component, skip the edit');
+        event.preventDefault();
         return;
     }
 
     // In place edit
-    event.target.contentEditable = 'true';
+    targetComponent.contentEditable = 'true';
 
-    console.log(' > ACTIVE Component: ' + event.target.id);
+    console.log(' > ACTIVE Component: ' + targetComponent.id);
+
+    if (targetComponent.id === editedElement?.id) {
+        event.stopPropagation();
+        return;
+    }
 
     // Remove previous 
     remClassProcessor('border-dotted');
 
     // Update CSS
-    event.target.classList.add('border-dotted');
+    targetComponent.classList.add('border-dotted');
 
-    let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
+    let propsPanel_title = <HTMLElement>document.querySelector('#builder-props-title');
     // let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
 
-    propsPanel_title.innerHTML = 'Props for ' + event.target.id;
+    propsPanel_title.innerHTML = 'Props for ' + targetComponent.id;
 
     //if ( quilEditor ) {
     //    console.log(' > Quill Content: ' + quilEditor.getText() );
     //    quilEditor.disable();
     //} 
 
-    quilEditor = new Quill( event.target, {theme: 'snow'});
-    console.log(' > Quill Content: ' + quilEditor.getText() );
+    destroyQuill();
+
+    editedElement = targetComponent;
+    quillEditor = new Quill(targetComponent, { theme: 'snow' });
+    console.log(' > Quill Content: ' + quillEditor.getText());
 
     // propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
 
@@ -193,66 +221,47 @@ export function onClick(event: any) {
     // let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
     // propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
 
+    event.stopPropagation();
     event.preventDefault();
 }
 
-export function destoryQuill() {
-
-    //let quillObj = document.getElementsByClassName('ql-editor');
-
-    //if (quillObj) {
-    //    console.log(' > QuillHTML : ' + quillObj.html());
-    //}
-    /*
-    if($(selector)[0])
-    {
-        var content = $(selector).find('.ql-editor').html();
-        $(selector).html(content);
-
-        $(selector).siblings('.ql-toolbar').remove();
-        $(selector + " *[class*='ql-']").removeClass (function (index, css) {
-           return (css.match (/(^|\s)ql-\S+/g) || []).join(' ');
-        });
-
-        $(selector + "[class*='ql-']").removeClass (function (index, css) {
-           return (css.match (/(^|\s)ql-\S+/g) || []).join(' ');
-        });
+export function destroyQuill() {
+    if (!!editedElement) {
+        editedElement.innerHTML = quillEditor.root.innerHTML;
+        editedElement.classList.remove('ql-container');
     }
-    else
-    {
-        console.error('editor not exists');
-    }*/
+    document.querySelectorAll('.ql-toolbar').forEach(el => el.remove());
 }
 
 export function remClassProcessor(aClass: string) {
 
-    let elems = document.getElementsByClassName( aClass );
+    let elems = document.getElementsByClassName(aClass);
 
-    if ( elems ) {
+    if (elems) {
         for (let i = 0; i < elems.length; i++) {
-            elems[i].classList.remove( aClass );
-        }    
-    }        
+            elems[i].classList.remove(aClass);
+        }
+    }
 }
 
 export function onKeyUp(event: any) {
     event;
     //if (event.key === 'Enter' || event.keyCode === 13) {
-        const target_id = event.target.id;
-        //console.log(' > Save TEXT for ' + target_id);
+    const target_id = event.target.id;
+    //console.log(' > Save TEXT for ' + target_id);
 
-        let activeComponent = document.querySelector( '#' + target_id );
-        if (activeComponent) {
-            activeComponent.innerHTML = event.target.innerHTML;
-        } else {
-            console.log( ' > NULL target:' + target_id );
-        }
+    let activeComponent = document.querySelector('#' + target_id);
+    if (activeComponent) {
+        activeComponent.innerHTML = event.target.innerHTML;
+    } else {
+        console.log(' > NULL target:' + target_id);
+    }
     //}    
 }
 
 export function onClear(event: any) {
     event;
-    console.log( ' > ACTION: clear');
+    console.log(' > ACTION: clear');
     let content = <HTMLElement>document.querySelector('#dropzone');
     // clear
     content.innerHTML = 'dropzone';
@@ -263,38 +272,38 @@ export function onClear(event: any) {
 
 export function onSave(event: any) {
     event;
-    console.log( ' > ACTION: save');
+    console.log(' > ACTION: save');
     let content = <HTMLElement>document.querySelector('#dropzone');
     window.localStorage.setItem("editME", content.innerHTML);
 }
 
 export function onRestore(event: any) {
-    
+
     event; // fake the usage
 
-    console.log( ' > ACTION: restore');
+    console.log(' > ACTION: restore');
     let content = <HTMLElement>document.querySelector('#dropzone');
 
     let saved_content = <string>window.localStorage.getItem("editME");
 
     // Check that we have data to restore
-    if ( !saved_content ) {
-        return; 
+    if (!saved_content) {
+        return;
     }
- 
+
     // update
-    content.innerHTML = saved_content; 
+    content.innerHTML = saved_content;
 
     let elems = content.getElementsByClassName("component");
-    
-    if ( elems ) {
+
+    if (elems) {
         for (let i = 0; i < elems.length; i++) {
             const draggableElement = elems[i];
 
             const upElement = document.createElement("span");
             upElement.innerHTML = "<i class='fa-solid fa-caret-up'></i>";
             upElement.className = "upButton";
-            upElement.onclick = function() {
+            upElement.onclick = function () {
                 var prevElement = draggableElement.previousElementSibling;
                 if (prevElement) {
                     draggableElement.parentNode?.insertBefore(draggableElement, prevElement);
@@ -304,7 +313,7 @@ export function onRestore(event: any) {
             const downElement = document.createElement("span");
             downElement.innerHTML = "<i class='fa-solid fa-caret-down'></i>";
             downElement.className = "downButton";
-            downElement.onclick = function() {
+            downElement.onclick = function () {
                 var nextElement = draggableElement.nextElementSibling;
                 if (nextElement) {
                     draggableElement.parentNode?.insertBefore(nextElement, draggableElement);
@@ -314,7 +323,7 @@ export function onRestore(event: any) {
             const crossElement = document.createElement("span");
             crossElement.innerHTML = "<i class='fa-solid fa-xmark'></i>";
             crossElement.className = "cross-icon";
-            crossElement.onclick = function() {
+            crossElement.onclick = function () {
                 onDelete(draggableElement);
             };
 
@@ -322,8 +331,8 @@ export function onRestore(event: any) {
             contentElement.innerHTML = draggableElement.innerHTML.trim();
             contentElement.style.display = "block";
             contentElement.id = draggableElement.id;
-            contentElement.onclick = function(event) {
-                onClick( event )
+            contentElement.onclick = function (event) {
+                onClick(event)
             };
 
             draggableElement.innerHTML = "";
@@ -331,7 +340,7 @@ export function onRestore(event: any) {
             draggableElement.appendChild(downElement);
             draggableElement.appendChild(crossElement);
             draggableElement.appendChild(contentElement);
-        }    
+        }
     } else {
         console.log(' > NULL ELEMs ');
     }
