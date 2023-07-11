@@ -1,3 +1,8 @@
+
+import Quill from 'quill';
+
+var quilEditor: Quill;
+
 export function uuidv4() {
     return 'uuid' + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -161,27 +166,62 @@ export function onClick(event: any) {
     remClassProcessor('border-dotted');
 
     // Update CSS
-    event.target.classList.add('border-dotted');    
+    event.target.classList.add('border-dotted');
 
     let propsPanel_title   = <HTMLElement>document.querySelector('#builder-props-title'  );
     // let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
 
     propsPanel_title.innerHTML = 'Props for ' + event.target.id;
 
+    //if ( quilEditor ) {
+    //    console.log(' > Quill Content: ' + quilEditor.getText() );
+    //    quilEditor.disable();
+    //} 
+
+    quilEditor = new Quill( event.target, {theme: 'snow'});
+    console.log(' > Quill Content: ' + quilEditor.getText() );
+
     // propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
 
-    let editor = document.querySelector('.ql-editor')
-    if (editor) {
-        editor.id = event.target.id;
-        editor.innerHTML = event.target.innerHTML;
-        editor.addEventListener('keyup', (event) => { onKeyUp( event ); });
-    }
-    
+    //let editor = document.querySelector('.ql-editor')
+    //if (editor) {
+    //    editor.id = event.target.id;
+    //    editor.innerHTML = event.target.innerHTML;
+    //    editor.addEventListener('keyup', (event) => { onKeyUp( event ); });
+    //}
 
     // let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
     // propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
 
     event.preventDefault();
+}
+
+export function destoryQuill() {
+
+    //let quillObj = document.getElementsByClassName('ql-editor');
+
+    //if (quillObj) {
+    //    console.log(' > QuillHTML : ' + quillObj.html());
+    //}
+    /*
+    if($(selector)[0])
+    {
+        var content = $(selector).find('.ql-editor').html();
+        $(selector).html(content);
+
+        $(selector).siblings('.ql-toolbar').remove();
+        $(selector + " *[class*='ql-']").removeClass (function (index, css) {
+           return (css.match (/(^|\s)ql-\S+/g) || []).join(' ');
+        });
+
+        $(selector + "[class*='ql-']").removeClass (function (index, css) {
+           return (css.match (/(^|\s)ql-\S+/g) || []).join(' ');
+        });
+    }
+    else
+    {
+        console.error('editor not exists');
+    }*/
 }
 
 export function remClassProcessor(aClass: string) {
