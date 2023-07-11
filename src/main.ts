@@ -32,3 +32,10 @@ for (let i = 0; i < dropZones.length; i++) {
 }
 
 onRestore( null );
+
+
+// Initialize Quill editor
+var options = {
+    theme: 'snow',
+};
+new Quill('#editor', options);
