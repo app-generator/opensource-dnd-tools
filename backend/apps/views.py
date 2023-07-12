@@ -29,6 +29,18 @@ def kits():
 
 # Per KIT Info
 @app.route('/kits/<template>/')
-def template(template):
+def kit_template(template):
     INFO_JSON = os.path.join(PATH_ROOT, 'templates', template, 'info.json')
     return send_file(INFO_JSON)
+
+# Per KIT File
+@app.route('/kits/<template>/<file>')
+def kit_file(template, file):
+    FILE_NAME = None  
+    
+    if file == 'base.html':
+        FILE_NAME = os.path.join(PATH_ROOT, 'templates', template, 'layouts', 'base.html')
+    else:
+        FILE_NAME = os.path.join(PATH_ROOT, 'templates', template, 'components', file)
+
+    return send_file(FILE_NAME)
