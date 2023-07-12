@@ -1,13 +1,4 @@
-
-import Quill from 'quill';
-
-var quillEditor: Quill;
-var editedElement: Element;
-
 export function setupGlobalEvents() {
-    document.body.addEventListener('click', () => {
-        destroyQuill();
-    })
 
     document.querySelector('#dropzone')?.addEventListener('click', event => {
         event.stopPropagation();
@@ -142,6 +133,9 @@ export function onDrop(event: any) {
 }
 
 export function onDelete(element: any) {
+
+    console.log(' > on_DELETE() ');
+
     element.style.display = "none";
     const localStorageData = window.localStorage.getItem('editME')?.split("dropzone")[1] || "";
 
@@ -162,6 +156,8 @@ export function onDelete(element: any) {
 
 export function onClick(event: any) {
 
+    console.log(' > on_CLICK() ');
+
     var targetComponent;
 
     if(event.target.classList.contains('component')){
@@ -170,7 +166,7 @@ export function onClick(event: any) {
         targetComponent = event.target.closest('.component');
     }
 
-    if (!(targetComponent.id.includes('uuid'))) {
+    if (targetComponent.id && !(targetComponent.id.includes('uuid'))) {
         //console.log(' > ['+event.target.id+'] NOT a Component, skip the edit');
         console.log(' > GRID Component, skip the edit');
         event.preventDefault();
@@ -182,56 +178,53 @@ export function onClick(event: any) {
 
     console.log(' > ACTIVE Component: ' + targetComponent.id);
 
-    if (targetComponent.id === editedElement?.id) {
-        event.stopPropagation();
-        return;
-    }
-
     // Remove previous 
     remClassProcessor('border-dotted');
 
     // Update CSS
     targetComponent.classList.add('border-dotted');
 
-    let propsPanel_title = <HTMLElement>document.querySelector('#builder-props-title');
-    // let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
+    if ( ! hasSiblings( event.target ) ) {
 
-    propsPanel_title.innerHTML = 'Props for ' + targetComponent.id;
-
-    //if ( quilEditor ) {
-    //    console.log(' > Quill Content: ' + quilEditor.getText() );
-    //    quilEditor.disable();
-    //} 
-
-    destroyQuill();
-
-    editedElement = targetComponent;
-    quillEditor = new Quill(targetComponent, { theme: 'snow' });
-    console.log(' > Quill Content: ' + quillEditor.getText());
-
-    // propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
-
-    //let editor = document.querySelector('.ql-editor')
-    //if (editor) {
-    //    editor.id = event.target.id;
-    //    editor.innerHTML = event.target.innerHTML;
-    //    editor.addEventListener('keyup', (event) => { onKeyUp( event ); });
-    //}
-
-    // let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
-    // propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
+        let propsPanel_title = <HTMLElement>document.querySelector('#builder-props-title');
+        let propsPanel_content = <HTMLElement>document.querySelector('#builder-props-content');
+    
+        propsPanel_title.innerHTML = 'Props for ' + targetComponent.id;
+    
+        propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
+    
+        let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
+        propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
+    
+    } else {
+        console.log(' > Nested COMPONENT, skip PROPS');
+    }
 
     event.stopPropagation();
     event.preventDefault();
 }
 
-export function destroyQuill() {
-    if (!!editedElement) {
-        editedElement.innerHTML = quillEditor.root.innerHTML;
-        editedElement.classList.remove('ql-container');
+export function hasSiblings(aNode: HTMLElement) {
+
+    if ( !aNode )
+        return false;
+
+    let siblings = [];    
+    let sibling  = aNode.firstChild;
+
+    while (sibling) {
+        if (sibling.nodeType === 1) {
+            siblings.push(sibling);
+        }
+        sibling = sibling.nextSibling;
     }
-    document.querySelectorAll('.ql-toolbar').forEach(el => el.remove());
+
+    if ( siblings.length > 0)
+        return true;
+    else 
+    return false;
 }
+
 
 export function remClassProcessor(aClass: string) {
 

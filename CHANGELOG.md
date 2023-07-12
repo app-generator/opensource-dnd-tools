@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.9] 2023-07-12
+### Changes
+
+- Improved GRID Control
+- Remove Quill
+
 ## [0.0.8] 2023-07-10
 ### Changes
 
