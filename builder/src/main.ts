@@ -10,6 +10,12 @@ document.querySelector('#action_save')!.addEventListener('click', (event) => { o
 document.querySelector('#action_restore')!.addEventListener('click', (event) => { onRestore(event) });
 document.querySelector('#action_undo')!.addEventListener('click', (event) => { onRestore(event) });
 
+// PULL Components 
+fetch('http://127.0.0.1:5000/kits/bs5/div.html')
+.then(response => response.text())                 // response.text() has the component that needs to be saved in  
+.then(text => console.log(text))                   // builder-components
+.catch(error => console.error(error));
+
 // SETUP Components
 let draggableElems = document.getElementsByClassName('draggable');
 
