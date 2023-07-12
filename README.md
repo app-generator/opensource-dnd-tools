@@ -14,6 +14,7 @@ Open-Source Playground for `Drag & Drop` tools and visual components editing - p
  
 ```bash
 $ git clone https://github.com/app-generator/opensource-dnd-tools.git
+$ cd builder
 $ yarn
 $ yarn dev    # development (LIVE Reload)
 $ yarn build  # production  (dist FOLDER)
@@ -39,6 +40,20 @@ $ yarn build  # production  (dist FOLDER)
 | ❌ | **Handle Multiple Pages** | - |
 | ❌ | **Dashboard Layout** | `Single Component` Drag & Drop |
 | ❌ | **Remote Component Server** | Load Components from distant Server |
+
+<br />
+
+## Components Server
+
+> Managed by `Flask`
+
+```bash
+$ cd backend
+$ virtualenv env
+$ source env/bin/activate
+$ pip install -r requirements.txt
+$ flask run --debug
+```
 
 <br />
 
