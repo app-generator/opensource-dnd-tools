@@ -55,6 +55,40 @@ $ pip install -r requirements.txt
 $ flask run --debug
 ```
 
+Here is the output:
+
+- `http://localhost:5000/`
+- `http://localhost:5000/kits/`, return available KITS
+  - 'material-kit'
+  - 'kit2'
+- `http://localhost:5000/kits/material-kit/`, return `Material Kit` assets
+
+```json
+{
+    "name": "Material Kit BS5 ",
+    "version": "0.0.0",
+    "type": "kit",
+    "material-kit": {
+        "layouts": "base.html",
+        "components": {
+            "footers": {
+                "footer.html": "NA"
+            },
+            "headers": {
+                "header.html": "NA"
+            },
+            "navigation": {
+                "navigation.html": "NA"
+            },
+            "general": {
+                "section1.html": "NA"
+            }
+        }
+    }
+}
+```
+
+
 <br />
 
 ## Contributors
